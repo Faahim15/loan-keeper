@@ -6,6 +6,13 @@ import { scaleFont } from "./responsive";
 /**
  * Core text style generator.
  * Usage: textStyle({ size: 16, weight: 'bold', color: colors.text })
+ *
+ * Note: no explicit `fontWeight` here on purpose. Inter's weights (via
+ * @expo-google-fonts/inter) are separate font families — Inter_400Regular,
+ * Inter_600SemiBold, etc — not one family with a weight axis. Setting
+ * fontWeight alongside fontFamily can make Android synthesize an extra
+ * bold pass on top of an already-bold font file. fontFamily alone fully
+ * determines the visual weight here.
  */
 export const textStyle = ({
   size = 14,
@@ -17,14 +24,6 @@ export const textStyle = ({
 }: TextStyleOptions = {}): TextStyle => ({
   fontSize: scaleFont(size),
   fontFamily: FONT[weight] || FONT.regular,
-  fontWeight:
-    weight === "bold"
-      ? "700"
-      : weight === "semiBold"
-        ? "600"
-        : weight === "medium"
-          ? "500"
-          : "400",
   color,
   lineHeight: lineHeight ? scaleFont(lineHeight) : undefined,
   letterSpacing,

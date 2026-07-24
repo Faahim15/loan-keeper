@@ -25,8 +25,11 @@ export const lightColors: ColorTokens = {
   bubbleMine: "#1F8A4C",
   bubbleTheirs: "#FFFFFF",
 
-  glassBg: "rgba(255,255,255,0.6)",
-  glassBorder: "rgba(255,255,255,0.4)",
+  // Brand-tinted glass instead of plain white — a flat white/black tint on
+  // a near-white page barely reads as "glass". A faint green tint plus a
+  // brighter top border gives it a visible edge even over empty background.
+  glassBg: "rgba(31,138,76,0.14)",
+  glassBorder: "rgba(255,255,255,0.65)",
 };
 
 export const darkColors: ColorTokens = {
@@ -54,14 +57,16 @@ export const darkColors: ColorTokens = {
   bubbleMine: "#1F8A4C",
   bubbleTheirs: "#1A211D",
 
-  glassBg: "rgba(26,33,29,0.6)",
-  glassBorder: "rgba(255,255,255,0.08)",
+  glassBg: "rgba(52,199,89,0.16)",
+  glassBorder: "rgba(255,255,255,0.16)",
 };
 
+// Loaded in app/_layout.tsx via useFonts({ Inter_400Regular, Inter_500Medium, ... })
+// These names must match exactly what @expo-google-fonts/inter exports.
 export const FONT: Record<"regular" | "medium" | "semiBold" | "bold", string> =
   {
-    regular: "System",
-    medium: "System",
-    semiBold: "System",
-    bold: "System",
+    regular: "Inter_400Regular",
+    medium: "Inter_500Medium",
+    semiBold: "Inter_600SemiBold",
+    bold: "Inter_700Bold",
   };

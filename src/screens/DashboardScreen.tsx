@@ -1,9 +1,11 @@
 import { UpcomingPayment } from "@/types/screens.types";
 import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import Avatar from "../components/Avatar";
 import Card from "../components/Card";
+import QuickActionsSheet from "../components/QuickActionsSheet";
 import { useTheme } from "../theme/ThemeContext";
 import { moderateScale } from "../utils/responsive";
 import { getTypography } from "../utils/textStyles";
@@ -26,18 +28,29 @@ const UPCOMING_PAYMENTS: UpcomingPayment[] = [
 ];
 
 interface DashboardScreenProps {
-  onAddLoan: () => void;
+  onNewLoan: () => void;
+  onAddBorrower: () => void;
+  onRecordPayment: () => void;
   onViewAllBorrowers: () => void;
   onPressPayment: (borrowerId: string) => void;
 }
 
 export default function DashboardScreen({
-  onAddLoan,
+  onNewLoan,
+  onAddBorrower,
+  onRecordPayment,
   onViewAllBorrowers,
   onPressPayment,
 }: DashboardScreenProps) {
   const { colors } = useTheme();
   const typography = getTypography(colors);
+  const [quickActionsVisible, setQuickActionsVisible] = useState(false);
+
+  const handleSelectAction = (actionKey: string) => {
+    if (actionKey === "new-loan") onNewLoan();
+    else if (actionKey === "add-borrower") onAddBorrower();
+    else if (actionKey === "record-payment") onRecordPayment();
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
@@ -142,11 +155,17 @@ export default function DashboardScreen({
       </ScrollView>
 
       <Pressable
-        onPress={onAddLoan}
+        onPress={() => setQuickActionsVisible(true)}
         style={[styles.fab, { backgroundColor: colors.primary }]}
       >
         <Feather name="plus" size={24} color={colors.textInverted} />
       </Pressable>
+
+      <QuickActionsSheet
+        visible={quickActionsVisible}
+        onClose={() => setQuickActionsVisible(false)}
+        onSelect={handleSelectAction}
+      />
     </View>
   );
 }
